@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>파일명</title>
+  </head>
+  <body>
+    <div id="app">
+      <label for="">수량: </label>
+      <input type="number" id="quantity" v-model="quantity" min="1" />
+
+      <br />
+      <label for="">단가: </label>
+      <input type="number" id="price" v-model="price" min="1000" />
+
+      <br /><label for="">할인률: </label>
+      <input type="number" id="discount" v-model="discount" min="0" />
+      <br />
+      <div>최종가격 : {{totalPrice}}</div>
+      <div>최종가격 : {{formettedPrice}}</div>
+      <!-- 금액: <input type="text" v-model.number="amount" /> <br />
+      <button v-on:click="balance += parseInt(amount)">입금</button>
+      <button v-on:click="balance -= parseInt(amount)">인출</button> <br />
+      <h3>계좌 잔고: [{{balance}}]</h3> -->
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script type="text/javascript">
+      const { createApp } = Vue;
+
+      let vm = createApp({
+        name: "App",
+        data() {
+          return {
+            quantity: 1,
+            price: 1000,
+            discount: 0,
+            totalPrice: 1000,
+          };
+        },
+        computed: {
+          // calculatedTotalPrice() {
+          //   let discountAmount =
+          //     this.price * this.quantity * (this.discount / 100);
+          //   this.totalPrice = this.price * this.quantity - discountAmount;
+          //   return this.totalPrice;
+          // },
+          formettedPrice() {
+            return this.totalPrice.toLocaleString();
+          },
+        },
+        watch: {
+          quantity(newValue) {
+            this.calculatedTotalPrice();
+          },
+          price(newValue) {
+            this.calculatedTotalPrice();
+          },
+          discount(newValue) {
+            this.calculatedTotalPrice();
+          },
+        },
+        /**
+         *
+         */
+        methods: {
+          calculatedTotalPrice() {
+            let discountAmount =
+              this.price * this.quantity * (this.discount / 100);
+            this.totalPrice = this.price * this.quantity - discountAmount;
+            return this.totalPrice;
+          },
+        },
+      });
+      vm.mount("#app");
+    </script>
+  </body>
+</html>

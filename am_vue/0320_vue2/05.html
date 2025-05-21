@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>파일명</title>
+  </head>
+  <body>
+    <div id="app">
+      <h2>수식어</h2>
+      <article>
+        <h2>.lazy</h2>
+        <input type="text" v-model.lazy="message" />
+        <p>입력된 값 : {{message}}</p>
+      </article>
+      <article>
+        <h2>.number</h2>
+        <input type="text" v-model.number="num" />
+        <p>입력된 값 : {{num}}</p>
+      </article>
+      <article>
+        <h2>.trim</h2>
+        <input type="text" v-model.trim="test3" />
+        <p>입력된 값 : {{test3}}</p>
+      </article>
+      <article>
+        <h2>실시간 반영 방법</h2>
+        <input type="text" v-model="test3" @input="onChange($event)/>
+        <p>{{test3}}</p>
+      </article>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script type="text/javascript">
+      const { createApp } = Vue;
+
+      let vm = createApp({
+        name: "App",
+        data() {
+          return {
+            message: "",
+            num: 0,
+            text1: "",
+            text2: "",
+            text3: "",
+          };
+        },
+        methods: {
+          // onchange: function(){}
+          // onchange: function()=>{this}  사용xxxx
+          onchange(e) {
+            this.text2 = e.target.value;
+          },
+        },
+      });
+      vm.mount("#app");
+    </script>
+  </body>
+</html>
+
+<!-- 이거 코드 다시 확인하기.. -->

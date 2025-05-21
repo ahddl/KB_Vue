@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>파일명</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>if</h1>
+      <h2>데이터 로딩 및 오류 상태 처리</h2>
+      <div>
+        <div v-if="isLoading">로딩중입니다....</div>
+        <div v-else-if="error">
+          <p>에러메시지</p>
+          <p>{{error}}</p>
+          <button>다시 시도</button>
+        </div>
+        <div v-else-if="list.length === 0">
+          <p>데이터가 없어요</p>
+        </div>
+        <ul v-else>
+          <li v-for="(item,i) in list" :key="item.id">
+            {{i+1}} - {{item.name}}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script type="text/javascript">
+      const { createApp } = Vue;
+
+      let vm = createApp({
+        name: "App",
+        data() {
+          return {
+            isLoading: false,
+            error: null,
+            list: [
+              { id: 1, name: "아이템 1" },
+              { id: 2, name: "아이템 2" },
+              { id: 3, name: "아이템 3" },
+            ],
+          };
+        },
+        method: {
+          //   retry: function () {},
+          retry() {
+            this.isLoading = true;
+            this.error = null;
+            setTimeout(() => {
+              this.isLoading = false;
+              this.error = "오류발생";
+              //   this.error = {
+              //     msg: "오류",
+              //   };
+            });
+          }, //이런 형식으로 작성해야함
+        },
+      });
+      vm.mount("#app");
+    </script>
+  </body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>파일명</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>pre</h1>
+      <pre>
+            코드를 작성할 수 있음 
+              (들여쓰기 가능)
+        </pre
+      >
+      <h1>v-once</h1>
+      <div>
+        <h3>일반적 데이터 바인딩</h3>
+        <p>{{counter}}</p>
+        <p v-once>{{counter}}</p>
+        <button @click="increment">증가하기</button>
+        <button @click="counter--">감소하기</button>
+      </div>
+
+      <h3>v-clock</h3>
+      <div></div>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script type="text/javascript">
+      const { createApp } = Vue;
+
+      let vm = createApp({
+        name: "App",
+        data() {
+          return {
+            message: "Hello Vue!",
+            counter: 1,
+          };
+        },
+        methods: {
+          increment() {
+            this.counter++;
+          },
+          change() {
+            this.message = "변경되었어요";
+          },
+        },
+      });
+      vm.mount("#app");
+      // }.2000);  -> 이런걸 사용했던 것 같은데.. 다시 보기ㅜ
+    </script>
+  </body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>파일명</title>
+    <style>
+      /* CSS 마저 못따라함 다시 봐야함 */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .lists {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .lists .card {
+        border: 1px solid red;
+        padding: 1rem;
+        position: relative;
+        width: 200px;
+      }
+      .card * {
+        position: relative;
+        z-index: 10;
+      }
+      /* .lists .pname {
+      }
+      .lists .pprice {
+      } */
+      .img > img {
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        z-index: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <h1>for</h1>
+      <ul class="lists">
+        <li class="card" v-for="list in products" :key="list.id">
+          <span class="new">new</span>
+          <p class="pname">{{list.name}}</p>
+          <p class="pprice">{{list.price}}</p>
+          <p class="pimg">
+            <img :src="list.image" alt="상품명" />
+          </p>
+          <button @click="addToCart(list)">장바구니</button>
+        </li>
+      </ul>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script type="text/javascript">
+      const { createApp } = Vue;
+
+      let vm = createApp({
+        name: "App",
+        data() {
+          return {
+            products: [
+              {
+                id: 1,
+                name: "아이폰",
+                price: 1000000,
+                image: "https://picsum.photos/100/100/?random=1",
+              },
+              {
+                id: 2,
+                name: "갤럭시",
+                price: 900000,
+                image: "https://picsum.photos/100/100/?random=2",
+              },
+              {
+                id: 3,
+                name: "아이패드",
+                price: 1500000,
+                image: "https://picsum.photos/100/100/?random=3",
+              },
+              {
+                id: 4,
+                name: "갤럭시 탭",
+                price: 1200000,
+                image: "https://picsum.photos/100/100/?random=4",
+              },
+              {
+                id: 5,
+                name: "아이폰SE",
+                price: 500000,
+                image: "https://picsum.photos/100/100/?random=5",
+              },
+              {
+                id: 6,
+                name: "갤럭시A",
+                price: 700000,
+                image: "https://picsum.photos/100/100/?random=6",
+              },
+              {
+                id: 7,
+                name: "아이패드미니",
+                price: 800000,
+                image: "https://picsum.photos/100/100/?random=7",
+              },
+              {
+                id: 8,
+                name: "갤럭시탭S",
+                price: 1100000,
+                image: "https://picsum.photos/100/100/?random=8",
+              },
+            ],
+          };
+        },
+        methods: {
+          addToCart(p) {
+            console.log(p);
+            // console.log(p.);
+          },
+        },
+      });
+      vm.mount("#app");
+    </script>
+  </body>
+</html>
