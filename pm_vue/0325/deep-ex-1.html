@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>파일명</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <style>
+      .user-list {
+        list-style-type: none;
+        padding: 0;
+      }
+      .user-list li {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+      }
+      .user-row {
+        display: flex;
+        justify-content: space-between;
+        font-weight: bold;
+        background-color: #f8f9fa;
+        padding: 10px;
+        border-top: 2px solid #000;
+        border-bottom: 2px solid #000;
+      }
+      .user-item {
+        display: flex;
+        justify-content: space-between;
+      }
+      .user-item li {
+        flex: 1;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <h1>사용자 목록</h1>
+      <div>
+        정렬 기준 :
+        <input type="radio" v-model="sortKey" value="id" /> ID
+        <input type="radio" v-model="sortKey" value="name" /> NAME
+        <input type="radio" v-model="sortKey" value="username" /> USERNAME
+        <input type="radio" v-model="sortKey" value="phone" /> PHONE
+      </div>
+      <ul class="user-list">
+        <li class="user-row">
+          <span class="col">ID</span>
+          <span class="col">NAME</span>
+          <span class="col">USERNAME</span>
+          <span class="col">PHONE</span>
+          <span class="col">COMPONY</span>
+        </li>
+        <li class="user-row" v-for="user in sortedUsers" :key="user.id">
+          <span class="col">{{user.id}}</span>
+          <span class="col">{{user.name}}</span>
+          <span class="col">{{user.username}}</span>
+          <span class="col">{{user.phone}}</span>
+          <span class="col">{{user.company.name}}</span>
+        </li>
+      </ul>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script type="text/javascript">
+      const { createApp, ref, computed } = Vue;
+
+      const app = createApp({
+        setup() {
+          const users = ref([
+            {
+              id: 1,
+              name: "Alice Johnson",
+              username: "alicej",
+              email: "alice@example.com",
+              address: {
+                street: "123 Maple St",
+                suite: "Apt. 1",
+                city: "New York",
+                zipcode: "10001",
+                geo: {
+                  lat: "40.7128",
+                  lng: "-74.0060",
+                },
+              },
+              phone: "123-456-7890",
+              website: "alicejohnson.com",
+              company: {
+                name: "Tech Solutions",
+                catchPhrase: "Innovating the future",
+                bs: "technology consulting",
+              },
+            },
+            {
+              id: 2,
+              name: "Cob Smith",
+              username: "bobsmith",
+              email: "bob@example.com",
+              address: {
+                street: "456 Oak St",
+                suite: "Suite 200",
+                city: "Los Angeles",
+                zipcode: "90001",
+                geo: {
+                  lat: "34.0522",
+                  lng: "-118.2437",
+                },
+              },
+              phone: "234-567-8901",
+              website: "bobsmith.io",
+              company: {
+                name: "Creative Minds",
+                catchPhrase: "Think different, create better",
+                bs: "design and marketing",
+              },
+            },
+            {
+              id: 3,
+              name: "Charlie Brown",
+              username: "charlieb",
+              email: "charlie@example.com",
+              address: {
+                street: "789 Pine St",
+                suite: "Apt. 3B",
+                city: "Chicago",
+                zipcode: "60601",
+                geo: {
+                  lat: "41.8781",
+                  lng: "-87.6298",
+                },
+              },
+              phone: "345-678-9012",
+              website: "BVharliebrown.dev",
+              company: {
+                name: "Brown Enterprises",
+                catchPhrase: "Excellence in business",
+                bs: "enterprise solutions",
+              },
+            },
+            {
+              id: 4,
+              name: "David Lee",
+              username: "davidlee",
+              email: "david@example.com",
+              address: {
+                street: "159 Birch St",
+                suite: "Floor 5",
+                city: "San Francisco",
+                zipcode: "94101",
+                geo: {
+                  lat: "37.7749",
+                  lng: "-122.4194",
+                },
+              },
+              phone: "456-789-0123",
+              website: "davidlee.com",
+              company: {
+                name: "NextGen Technologies",
+                catchPhrase: "Future is now",
+                bs: "AI and automation",
+              },
+            },
+            {
+              id: 5,
+              name: "Eve Adams",
+              username: "eveadams",
+              email: "eve@example.com",
+              address: {
+                street: "753 Willow St",
+                suite: "Unit 2",
+                city: "Austin",
+                zipcode: "73301",
+                geo: {
+                  lat: "30.2672",
+                  lng: "-97.7431",
+                },
+              },
+              phone: "567-890-1234",
+              website: "eveadams.net",
+              company: {
+                name: "Visionary Group",
+                catchPhrase: "See beyond limits",
+                bs: "business consulting",
+              },
+            },
+            {
+              id: 6,
+              name: "Frank Wilson",
+              username: "frankw",
+              email: "frank@example.com",
+              address: {
+                street: "951 Cedar St",
+                suite: "Penthouse",
+                city: "Seattle",
+                zipcode: "98101",
+                geo: {
+                  lat: "47.6062",
+                  lng: "-122.3321",
+                },
+              },
+              phone: "678-901-2345",
+              website: "frankwilson.org",
+              company: {
+                name: "Wilson Ventures",
+                catchPhrase: "Investing in tomorrow",
+                bs: "venture capital",
+              },
+            },
+            {
+              id: 7,
+              name: "Grace Miller",
+              username: "gracem",
+              email: "grace@example.com",
+              address: {
+                street: "246 Elm St",
+                suite: "Apt. 7C",
+                city: "Boston",
+                zipcode: "02108",
+                geo: {
+                  lat: "42.3601",
+                  lng: "-71.0589",
+                },
+              },
+              phone: "789-012-3456",
+              website: "gracemiller.me",
+              company: {
+                name: "Miller & Co.",
+                catchPhrase: "Quality and integrity",
+                bs: "legal consulting",
+              },
+            },
+            {
+              id: 8,
+              name: "Henry Clark",
+              username: "henryc",
+              email: "henry@example.com",
+              address: {
+                street: "357 Spruce St",
+                suite: "Office 101",
+                city: "Denver",
+                zipcode: "80202",
+                geo: {
+                  lat: "39.7392",
+                  lng: "-104.9903",
+                },
+              },
+              phone: "890-123-4567",
+              website: "henryclark.com",
+              company: {
+                name: "Clark Innovations",
+                catchPhrase: "Pioneering solutions",
+                bs: "software development",
+              },
+            },
+            {
+              id: 9,
+              name: "Ivy Roberts",
+              username: "ivyroberts",
+              email: "ivy@example.com",
+              address: {
+                street: "468 Redwood St",
+                suite: "Unit 9",
+                city: "Portland",
+                zipcode: "97201",
+                geo: {
+                  lat: "45.5152",
+                  lng: "-122.6784",
+                },
+              },
+              phone: "901-234-5678",
+              website: "ivyroberts.io",
+              company: {
+                name: "Roberts Media",
+                catchPhrase: "Creating impactful stories",
+                bs: "digital media",
+              },
+            },
+            {
+              id: 10,
+              name: "Jack Turner",
+              username: "jackturner",
+              email: "jack@example.com",
+              address: {
+                street: "579 Birchwood Ave",
+                suite: "Loft 3",
+                city: "Phoenix",
+                zipcode: "85001",
+                geo: {
+                  lat: "33.4484",
+                  lng: "-112.0740",
+                },
+              },
+              phone: "012-345-6789",
+              website: "jackturner.dev",
+              company: {
+                name: "Turner Technologies",
+                catchPhrase: "Bringing ideas to life",
+                bs: "software engineering",
+              },
+            },
+          ]);
+
+          const sortKey = ref("id"); // 기본 정렬 기준
+
+          const sortedUsers = computed(() => {
+            return users.value.sort((a, b) => {
+              if (sortKey.value === "id") {
+                console.log("id로 정렬");
+
+                return a.id - b.id; // ID 기준 정렬 (숫자)
+              } else if (sortKey.value === "name") {
+                console.log("name로 정렬");
+                return a.name < b.name ? -1 : a.name > b.name ? 1 : 0; // 이름 기준 정렬 (알파벳)
+              } else if (sortKey.value === "username") {
+                console.log("username로 정렬");
+                return a.username < b.username
+                  ? -1
+                  : a.username > b.username
+                  ? 1
+                  : 0; // 사용자명 기준 정렬 (알파벳)
+              } else if (sortKey.value === "phone") {
+                console.log("phone로 정렬");
+                return a.phone < b.phone ? -1 : a.phone > b.phone ? 1 : 0; // 전화번호 기준 정렬 (알파벳)
+              }
+            });
+          });
+
+          return {
+            users,
+            sortKey,
+            sortedUsers,
+          };
+        },
+      });
+
+      const vm = app.mount("#app");
+    </script>
+  </body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>파일명</title>
+  </head>
+  <body>
+    <div id="app">
+      <!-- 
+      1. .lazy
+      -> change 이벤트 발생시에만 데이터 업데이트 함
+      2. .number
+      -> 사용자 입력을 자동으로 숫자로 형변환 해줌, 숫자로 변한 가능할때만, 숫자 아닐때는 변환하지 않음
+      3. .trim
+      -> 공백을 삭제 해주는 것
+       -->
+      <div>
+        <h4>lazy 수식어</h4>
+        lazy Test : <input type="text" v-model.lazy="lazyTest" />
+        <br />
+        입력된 값 : <input type="text" v-model.lazy="lazyTest" readonly />
+      </div>
+      <div>
+        <h4>number 수식어</h4>
+        number Test : <input type="text" v-model.number="numberTest" />
+        <br />
+        입력된 값 : <input type="text" v-model.number="numberTest" readonly />
+      </div>
+      <div>
+        <h4>trim 수식어</h4>
+        trim Test : <input type="text" v-model.trim="trimTest" />
+        <br />
+        입력된 값 : <input type="text" v-model.trim="trimTest" readonly />
+      </div>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script type="text/javascript">
+      const { createApp, ref } = Vue;
+
+      const app = createApp({
+        setup() {
+          const lazyTest = ref("");
+          const numberTest = ref("");
+          const trimTest = ref("");
+
+          return {
+            lazyTest,
+            numberTest,
+            trimTest,
+          };
+        },
+      });
+
+      const vm = app.mount("#app");
+    </script>
+  </body>
+</html>
+
+<!-- 꼭 비교해보기.. 확실안함
+ 
+[.prevent란? 버튼 눌렀을 때 리오드되는데 만약 버튼이 여러개 있을 때 한 버튼을 눌렀을 때 사라지는 걸 방지하기 위함]-->

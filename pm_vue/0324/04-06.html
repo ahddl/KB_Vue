@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>파일명</title>
+  </head>
+  <body>
+    <div id="app">
+      x : <input type="text" v-model.number="x" /><br />
+      y : <input type="text" v-model.number="y" /><br />
+      덧셈 결과 : {{sum}}
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script type="text/javascript">
+      const { createApp, ref, watch, computed } = Vue;
+
+      const app = createApp({
+        setup() {
+          const x = ref(0);
+          const y = ref(0);
+
+          //왜 computed를 써야 할까?
+          //sum은 x와 y 값이 변할 때마다 자동으로 갱신되어야하기 때문
+
+          // watch를 쓰면 수동으로 sum.value를 갱신해야 함
+          const sum = computed(() => x.value + y.value);
+
+          //current : 현재값
+          //old : 변경 전 값
+          watch(x, (current, old) => {
+            console.log(`x:${old} --> ${current}`);
+          });
+
+          watch(y, (current, old) => {
+            console.log(`y:${old} --> ${current}`);
+          });
+
+          //sum 만들어 보기
+          // watch(sum, (x, y) => {
+          //   sum.value = x.value.current + y.value.current;
+          //   console.log(`sum:${sum.value}`);
+          // }); 이거 내가 끄적이다 가 실패한것
+
+          return {
+            x,
+            y,
+            sum,
+          };
+        },
+      });
+
+      const vm = app.mount("#app");
+    </script>
+  </body>
+</html>

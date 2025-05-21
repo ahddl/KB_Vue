@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>컴포지션 API 옵션 API</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>컴포지션 API 옵션 API</h1>
+      <div>
+        <!-- {{ }}(이중 중괄호)는 Vue에서 템플릿 문법의 Mustache(머스타시) 문법 -->
+        <h2>메시지{{message}}</h2>
+        <p>현재시간:{{currentTime}}</p>
+      </div>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script type="text/javascript">
+      //옵션 API
+      //-data()함수에서 반환하는 객체의 속성으로 상태 정의
+      //-this를 통해 상태에 접근 (this.currentTime처럼)
+      Vue.createApp({
+        date() {
+          return {
+            message: "안녕하세요",
+            currentTime: new Date().toLocaleTimeString(),
+          };
+        },
+        mounted() {
+          setInterval(() => {
+            this.currentTime = new Date().toLocaleTimeString();
+          });
+        },
+      }).mount("#app");
+
+      //컴포지션 API
+      //-반응형 상태를 ref() 함수를 통해 생성
+      //-값을 변경할 때 .value 속성을 사용
+      //-관련 로직을 함께 그룹화가 가능
+
+      const { createApp, ref, onMounted } = Vue;
+      const app = createApp({
+        //setup() => 진입하는 역할, Vue 3에서 도입되었고, 컴포넌트가 생성될 때 실행되면서 반응형 상태, 함수, 라이프사이클 훅 등을 정의하는 역할
+        setup() {
+          const message = ref("hello vue!");
+          const currentTime = ref(new Date().toLocaleTimeString());
+
+          onMounted(() => {
+            seInterval(() => {
+              currentTime.value = new Date().toLocaleTimeString();
+            });
+          });
+
+          return {
+            message,
+            currentTime,
+          };
+        },
+      });
+
+      let vm = createApp({
+        name: "App",
+        data() {
+          return {
+            message: "Hello Vue!",
+          };
+        },
+      });
+      vm.mount("#app");
+    </script>
+  </body>
+</html>
